@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container-fluid">
+
+<nav th:replace="fragments :: nav"></nav>
+
+<div class = "container">
+    <h1 th:text="${title}"></h1>
+
+    <nav>
+        <a href="/admin">Admin Home</a> |
+        <a href="/admin/add-park">Add New Park</a> |
+        <a href="/admin/delete-park">Delete Park</a> |
+        <a href="/admin/add-amenity">Add New Amenity</a> |
+        <a href="/admin/delete-amenity">Delete Amenity</a>
+
+    </nav>
+
+
+    <br />
+
+    <form method="post">
+
+        <div th:each="amenity: ${amenities}" class="checkbox">
+            <input type="checkbox" name="amenityIds" th:value="${amenity.id}" th:id="${amenity.id}"/>
+            <label th:for="${amenity.id}" th:text="${amenity.name}"></label>
+            <br />
+        </div>
+
+        <input type="submit" value="Delete Amenity" />
+    </form>
+</div>
+</body>
+</html>

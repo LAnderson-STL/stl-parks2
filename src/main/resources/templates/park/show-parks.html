@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container-fluid">
+
+<nav th:replace="fragments :: nav"></nav>
+
+<div th:replace="fragments :: admin-login"></div>
+
+<div class = "container">
+    <h1 th:text="${title}"></h1>
+
+
+
+    <br />
+
+
+
+
+    <h4></h4>
+
+
+
+    <div  th:each="park : ${parks}">
+        <table class="park-listing">
+            <tr>
+                <th>Name</th>
+                <td th:text="${park.name}"></td>
+            </tr>
+            <tr>
+                <th>Neighborhood</th>
+                <td th:text="${park.neighborhood}"></td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td th:text="${park.streetAddress} + ', St. Louis, MO  ' + ${park.zip}"></td>
+            </tr>
+            <tr>
+                <th>Website</th>
+                <td ><a th:href="${park.website}" th:target="_blank">Visit Website</a></td>
+            </tr>
+
+            <tr>
+                <th>Amenities</th>
+                <td>
+                    <ul th:each="amenity : ${park.amenities}">
+                        <li th:text = "${amenity.name}"></li>
+                    </ul>
+                </td>
+            </tr>
+            <hr/>
+            <br />
+
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container-fluid">
+
+<nav th:replace="fragments :: nav"></nav>
+
+<div class = "container">
+
+    <h1 th:text="${title}"></h1>
+
+    <nav>
+        <a href="/admin">Admin Home</a> |
+        <a href="/admin/add-park">Add New Park</a> |
+        <a href="/admin/delete-park">Delete Park</a> |
+        <a href="/admin/add-amenity">Add New Amenity</a> |
+        <a href="/admin/delete-amenity">Delete Amenity</a>
+    </nav>
+
+
+
+    <form method="post" style="max-width:600px;" th:object="${amenity}">
+
+        <div class="form-group">
+            <label th:for="name">Name</label>
+            <input class="form-control" th:field="*{name}" />
+            <span th:errors="*{name}" class="error"></span>
+        </div>
+
+        <input type="submit" value="Add Amenity" />
+
+    </form>
+
+</div>
+</body>
+</html>
