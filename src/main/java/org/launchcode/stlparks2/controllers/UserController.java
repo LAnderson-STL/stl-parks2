@@ -18,16 +18,16 @@ public class UserController {
     @Autowired
     private UserDao userDao;
 
-    @RequestMapping(value = "add", method = RequestMethod.GET)
+    @RequestMapping(value = "register", method = RequestMethod.GET)
     public String displayAddUser(Model model) {
 
         model.addAttribute("title", "New User Registration");
         model.addAttribute(new User());
 
-        return "user/add-user";
+        return "user/register";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @RequestMapping(value = "register", method = RequestMethod.POST)
     public String processAddUser(Model model, @RequestParam String userName, String password, String verifyPassword) {
         //TODO: error handling
 
@@ -35,7 +35,7 @@ public class UserController {
 
         userDao.save(newUser);
 
-        return "redirect:/" + newUser.getId();
+        return "redirect:" + newUser.getId();
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)

@@ -103,7 +103,7 @@ public class AdminController {
     public String displayAddParkAmenities(Model model, @PathVariable int parkId) {
 
         Park park = parkDao.findById(parkId).orElse(null);
-        AddParkAmenitiesForm form = new AddParkAmenitiesForm(park, amenityDao.findAll());
+        AddParkAmenitiesForm form = new AddParkAmenitiesForm(park, amenityDao.findAllByOrderByNameAsc());
         model.addAttribute("title", "Add Amenities for Park " + park.getName());
         model.addAttribute("form", form);
 

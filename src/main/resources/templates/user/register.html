@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
 
 <head th:replace="fragments :: head"></head>
@@ -18,7 +18,7 @@
         <div class="form-group">
             <label th:for="userName">Username</label>
             <input class="form-control" name="userName" />
-            <!-- <span th:errors="*{userName}" class="error"></span>-->
+            <span th:errors="*{userName}" class="error"></span>
         </div>
 
         <div class="form-group">
