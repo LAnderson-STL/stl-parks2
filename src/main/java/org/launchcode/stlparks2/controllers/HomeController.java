@@ -1,8 +1,10 @@
 package org.launchcode.stlparks2.controllers;
 
+import org.launchcode.stlparks2.models.Admin;
 import org.launchcode.stlparks2.models.Amenity;
 import org.launchcode.stlparks2.models.Park;
 import org.launchcode.stlparks2.models.User;
+import org.launchcode.stlparks2.models.data.AdminDao;
 import org.launchcode.stlparks2.models.data.AmenityDao;
 import org.launchcode.stlparks2.models.data.ParkDao;
 import org.launchcode.stlparks2.models.data.UserDao;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 
 @Controller
 @RequestMapping("")
-public class ParkController {
+public class HomeController {
 
     @Autowired
     private ParkDao parkDao;
@@ -28,25 +30,27 @@ public class ParkController {
     @Autowired
     UserDao userDao;
 
-    @RequestMapping (value="", method = RequestMethod.GET)
-    public String index(Model model){
+    @Autowired
+    AdminDao adminDao;
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String index(Model model) {
 
         model.addAttribute("amenities", amenityDao.findAll());
 
         return "park/index";
     }
 
-    @RequestMapping (value="show-parks", method = RequestMethod.GET)
-    public String showParks(Model model){
+    @RequestMapping(value = "show-parks", method = RequestMethod.GET)
+    public String showParks(Model model) {
 
         model.addAttribute("parks", parkDao.findAllByOrderByNameAsc());
 
         return "park/show-parks";
     }
 
-    @RequestMapping(value="search", method = RequestMethod.GET)
-    public String showSearch(Model model){
-
+    @RequestMapping(value = "search", method = RequestMethod.GET)
+    public String showSearch(Model model) {
 
 
         model.addAttribute("title", "Search by Amenity");
@@ -55,22 +59,19 @@ public class ParkController {
         return "park/search";
     }
 
-    @RequestMapping(value="search", method = RequestMethod.POST)
-    public String processSearch(Model model, @RequestParam ArrayList<Integer> amenityIds){
-
-
-
+    @RequestMapping(value = "search", method = RequestMethod.POST)
+    public String processSearch(Model model, @RequestParam ArrayList<Integer> amenityIds) {
 
 
         ArrayList<Park> foundParks = new ArrayList<>();
 
-        for (Park park : parkDao.findAll()){
+        for (Park park : parkDao.findAll()) {
             ArrayList<Integer> parkAmenityIds = new ArrayList<>();
-            for (Amenity amenity : park.getAmenities()){
+            for (Amenity amenity : park.getAmenities()) {
                 parkAmenityIds.add(amenity.getId());
             }
 
-            if (parkAmenityIds.containsAll(amenityIds)){
+            if (parkAmenityIds.containsAll(amenityIds)) {
                 foundParks.add(park);
             }
 
@@ -83,12 +84,12 @@ public class ParkController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String userLogin(Model model, @RequestParam String userName, String password){
+    public String userLogin(Model model, @RequestParam String userName, String password) {
 
         User user = userDao.findByUserName(userName).orElse(null);
 
-        for (User userX : userDao.findAll()){
-            if (userX.getUserName().equals(user.getUserName()) && (userX.getHashedPassword().equals(user.getHashedPassword()))){
+        for (User userX : userDao.findAll()) {
+            if (userX.getUserName().equals(user.getUserName()) && (userX.getHashedPassword().equals(user.getHashedPassword()))) {
                 return "redirect:/user/" + user.getId();
             }
         }
@@ -96,5 +97,16 @@ public class ParkController {
 
     }
 
+    @RequestMapping(value = "", params = "admin-login", method = RequestMethod.POST)
+    public String adminLogin(Model model, @RequestParam String adminUserName, String adminPassword) {
 
+        Admin admin = adminDao.findByUserName(adminUserName).orElse(null);
+
+        for (Admin adminX : adminDao.findAll()) {
+            if (adminX.getUserName().equals(admin.getUserName()) && (adminX.getPassword().equals(adminX.getPassword()))) {
+                return "redirect:/admin";
+            }
+        }
+        return "park/index";
+    }
 }

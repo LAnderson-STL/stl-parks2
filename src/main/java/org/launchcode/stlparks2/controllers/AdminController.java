@@ -2,15 +2,18 @@ package org.launchcode.stlparks2.controllers;
 
 import org.launchcode.stlparks2.models.Amenity;
 import org.launchcode.stlparks2.models.Park;
+import org.launchcode.stlparks2.models.User;
 import org.launchcode.stlparks2.models.data.AdminDao;
 import org.launchcode.stlparks2.models.data.AmenityDao;
 import org.launchcode.stlparks2.models.data.ParkDao;
+import org.launchcode.stlparks2.models.data.UserDao;
 import org.launchcode.stlparks2.models.forms.AddParkAmenitiesForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 
@@ -29,7 +32,8 @@ public class AdminController {
     @Autowired
     private AdminDao adminDao;
 
-
+    @Autowired
+    private UserDao userDao;
 
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -167,5 +171,26 @@ public class AdminController {
         return "redirect:/admin/delete-amenity";
 
 
+    }
+
+    @RequestMapping(value = "delete-user", method = RequestMethod.GET)
+    public String displayDeleteUser(Model model) {
+        model.addAttribute("user", userDao.findAll());
+        model.addAttribute("title", "Delete Park");
+
+        return "admin/delete-user";
+    }
+
+    @RequestMapping(value = "delete-user", method = RequestMethod.POST)
+    public String processDeleteUser(@RequestParam int[] userIds) {
+
+        for (int userId : userIds) {
+            User user = userDao.findById(userId).orElse(null);
+
+
+            userDao.delete(user);
+        }
+
+        return "redirect:/admin/delete-user";
     }
 }
