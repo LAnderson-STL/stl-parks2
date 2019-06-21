@@ -31,12 +31,18 @@ public class UserController {
     public String processAddUser(Model model, @RequestParam String userName, String password, String verifyPassword) {
         //TODO: error handling
 
-        User newUser = new User(userName, password);
 
-        userDao.save(newUser);
 
-        return "redirect:" + newUser.getId();
+
+
+            User newUser = new User(userName, password);
+
+            userDao.save(newUser);
+
+            return "redirect:" + newUser.getId();
+
     }
+
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public String displayProfilePage(Model model, @PathVariable int userId){
