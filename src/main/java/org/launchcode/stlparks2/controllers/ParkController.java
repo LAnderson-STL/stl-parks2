@@ -2,8 +2,10 @@ package org.launchcode.stlparks2.controllers;
 
 import org.launchcode.stlparks2.models.Amenity;
 import org.launchcode.stlparks2.models.Park;
+import org.launchcode.stlparks2.models.User;
 import org.launchcode.stlparks2.models.data.AmenityDao;
 import org.launchcode.stlparks2.models.data.ParkDao;
+import org.launchcode.stlparks2.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,9 @@ public class ParkController {
 
     @Autowired
     private AmenityDao amenityDao;
+
+    @Autowired
+    UserDao userDao;
 
     @RequestMapping (value="", method = RequestMethod.GET)
     public String index(Model model){
@@ -75,11 +80,21 @@ public class ParkController {
 
         return "park/show-parks";
 
-
-
     }
 
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public String userLogin(Model model, @RequestParam String userName, String password){
 
+        User user = userDao.findByUserName(userName).orElse(null);
+
+        for (User userX : userDao.findAll()){
+            if (userX.getUserName().equals(user.getUserName()) && (userX.getHashedPassword().equals(user.getHashedPassword()))){
+                return "redirect:/user/" + user.getId();
+            }
+        }
+        return "redirect:";
+
+    }
 
 
 }

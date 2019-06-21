@@ -72,6 +72,10 @@ public class UserController {
 
 
 
+
+
+
+
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public String displayProfilePage(Model model, @PathVariable int userId){
 
