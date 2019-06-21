@@ -36,18 +36,31 @@ public class UserController {
             if (newUser.getUserName().length() < 5 || newUser.getUserName().length() > 15){
                 model.addAttribute("title", "register");
                 model.addAttribute("userNameError", "Username must be 5 - 15 characters");
+                model.addAttribute("password", password);
                 return "user/register";
+            }
+
+
+            for (User user : userDao.findAll()){
+                if (user.getUserName().equals(newUser.getUserName())){
+                    model.addAttribute("title", "register");
+                    model.addAttribute("userNameError", "Username already exists");
+                    model.addAttribute("userName", userName);
+                    return "user/register";
+                }
             }
 
             if (password.length() < 5 || password.length() > 15){
                 model.addAttribute("title", "register");
-                model.addAttribute("passwordError", "Password mmust be 5 - 15 characters");
+                model.addAttribute("passwordError", "Password must be 5 - 15 characters");
+                model.addAttribute("userName", userName);
                 return "user/register";
             }
 
             if (!password.equals(verifyPassword)){
                 model.addAttribute("title", "register");
                 model.addAttribute("verifyPasswordError", "Passwords do not match");
+                model.addAttribute("userName", userName);
                 return "user/register";
             }
 
@@ -56,6 +69,7 @@ public class UserController {
             return "redirect:" + newUser.getId();
 
     }
+
 
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
