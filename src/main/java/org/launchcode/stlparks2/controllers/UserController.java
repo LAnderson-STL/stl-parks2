@@ -31,11 +31,25 @@ public class UserController {
     public String processAddUser(Model model, @RequestParam String userName, String password, String verifyPassword) {
         //TODO: error handling
 
-
-
-
-
             User newUser = new User(userName, password);
+
+            if (newUser.getUserName().length() < 5 || newUser.getUserName().length() > 15){
+                model.addAttribute("title", "register");
+                model.addAttribute("userNameError", "Username must be 5 - 15 characters");
+                return "user/register";
+            }
+
+            if (password.length() < 5 || password.length() > 15){
+                model.addAttribute("title", "register");
+                model.addAttribute("passwordError", "Password mmust be 5 - 15 characters");
+                return "user/register";
+            }
+
+            if (!password.equals(verifyPassword)){
+                model.addAttribute("title", "register");
+                model.addAttribute("verifyPasswordError", "Passwords do not match");
+                return "user/register";
+            }
 
             userDao.save(newUser);
 
