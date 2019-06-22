@@ -1,5 +1,6 @@
 package org.launchcode.stlparks2.controllers;
 
+import org.launchcode.stlparks2.models.Admin;
 import org.launchcode.stlparks2.models.Amenity;
 import org.launchcode.stlparks2.models.Park;
 import org.launchcode.stlparks2.models.User;
@@ -116,6 +117,40 @@ public class HomeController {
         model.addAttribute("loginError", "Username and password doesn't match");
         return "park/index";
 
+    }
+
+    @RequestMapping(value = "", params = "admin-login", method = RequestMethod.POST)
+    public String adminLogin(Model model, @RequestParam String adminUserName, String adminPassword){
+        Admin admin = adminDao.findByUserName(adminUserName);
+        String hashedPassword = admin.getSHA256(adminPassword);
+        if (admin == null) {
+           // model.addAttribute("loginError", "Username does not exist");
+            return "redirect:";
+        }
+
+        if (hashedPassword.equals(admin.getPassword())) {
+            cookie = new Cookie("name", admin.getUserName());
+            cookie.setMaxAge(60 * 60);
+            cookie.setPath("/admin");
+            response.addCookie(cookie);
+            return "redirect:/admin";
+        }
+
+        //model.addAttribute("loginError", "Username and password doesn't match");
+        return "park/index";
+
+    }
+
+
+
+
+    @RequestMapping(value = "logout")
+    public String logout() {
+        cookie = new Cookie("userName", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 
 

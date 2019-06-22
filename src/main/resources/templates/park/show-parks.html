@@ -17,7 +17,7 @@
 
 
 
-    <h4></h4>
+    <h4 th:text="${parks.size() + ' Result(s)'}"></h4>
 
 
 
@@ -43,9 +43,11 @@
             <tr>
                 <th>Amenities</th>
                 <td>
+                    <span th:unless="${park.amenities} and ${park.amenities.size()}">No Amenities Found</span>
                     <ul th:each="amenity : ${park.amenities}">
                         <li th:text = "${amenity.name}"></li>
                     </ul>
+
                 </td>
             </tr>
             <hr/>

@@ -10,9 +10,10 @@
 <div class = "container">
     <h1 th:text="${title}"></h1>
 
-
+    <a href="/show-parks">View All Parks</a>
 
     <form method="post" action="">
+
         <div th:each="amenity : ${amenities}" class="checkbox">
             <input type="checkbox"  name="amenityIds" th:value="${amenity.id}" th:id="${amenity.id}"/>
             <label th:for="${id}" th:text="${amenity.name}"></label>
@@ -20,6 +21,7 @@
         </div>
 
         <input type="submit" value="Find Parks" class="btn btn-primary"/>
+
 
     </form>
 

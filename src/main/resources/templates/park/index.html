@@ -25,13 +25,7 @@
     <br />
     <h2>Welcome to Home!</h2>
 
-    <h4>Parks List</h4>
 
-    <ul>
-        <li th:each="park : ${parks}">
-            <a th:href="'admin/view/'+ ${park.id}" th:text="${park.name}"></a>
-        </li>
-    </ul>
 
 </div>
 </body>
