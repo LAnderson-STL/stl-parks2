@@ -25,7 +25,7 @@
         <table class="park-listing">
             <tr>
                 <th>Name</th>
-                <td th:text="${park.name}"></td>
+                <td ><a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a></td>
             </tr>
             <tr>
                 <th>Neighborhood</th>

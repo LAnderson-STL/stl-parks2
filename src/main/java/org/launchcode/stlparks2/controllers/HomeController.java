@@ -11,6 +11,7 @@ import org.launchcode.stlparks2.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -96,6 +97,16 @@ public class HomeController {
 
     }
 
+    @RequestMapping(value = "view/{parkId}", method = RequestMethod.GET)
+    public String viewPark(Model model, @PathVariable int parkId) {
+        Park park = parkDao.findById(parkId).orElse(null);
+        model.addAttribute("park", park);
+        model.addAttribute("title", "Park Info");
+
+
+        return "park/view-park";
+    }
+
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String userLogin(Model model, @RequestParam String userName, String password) {
@@ -140,8 +151,6 @@ public class HomeController {
         return "park/index";
 
     }
-
-
 
 
     @RequestMapping(value = "logout")
