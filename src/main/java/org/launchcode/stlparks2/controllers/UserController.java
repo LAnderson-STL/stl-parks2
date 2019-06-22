@@ -94,6 +94,7 @@ public class UserController {
     public String processAddPark(AddParkToProfileForm form, @RequestParam int parkId, int userId, Model model) {
 
 
+        model.addAttribute("title", "Remove Park");
         User user = userDao.findById(form.getUserId()).orElse(null);
         Park park = parkDao.findById(parkId).orElse(null);
         user.addPark(park);
@@ -102,6 +103,16 @@ public class UserController {
 
         return "redirect:" + user.getId();
 
+    }
+
+    @RequestMapping(value = "delete-park/{userId}", method = RequestMethod.GET)
+    public String displayDeletePark(Model model, @PathVariable int userId){
+        User user = userDao.findById(userId).orElse(null);
+        AddParkToProfileForm form = new AddParkToProfileForm(user, parkDao.findAllByOrderByNameAsc());
+        model.addAttribute("user", user);
+        model.addAttribute("title", "Remove Park");
+
+        return "user/delete-park";
     }
 
 

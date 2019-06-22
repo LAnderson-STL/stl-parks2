@@ -24,11 +24,9 @@
 
 
 
+    <form method="post" th:object="${user}" >
 
-
-    <form method="post" >
-
-        <div th:each="park : ${parks}" class="checkbox">
+        <div th:each="park : ${user.parks}" class="checkbox">
 
             <input type="checkbox" name="parkIds" th:value="${park.id}" th:id="${park.id}"/>
             <a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a><br />
@@ -37,8 +35,8 @@
 
         </div>
 
-        <input type="hidden" th:value="*{user.id}" name="userId" />
-        <input type="submit" value="Remove Park" />
+        <input type="hidden" th:value="*{id}" name="userId" />
+        <input type="submit" value="Remove Park(s)" />
 
     </form>
 
