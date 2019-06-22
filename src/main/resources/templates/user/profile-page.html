@@ -24,9 +24,9 @@
 
 <h3>My Parks</h3>
 
-<div   th:object="${form}">
 
-<form method="POST" style="max-width:600px;">
+
+<form method="POST" style="max-width:600px;" th:object="${form}">
     <div class="form-group">
         <label th:for="parkId">Add Park to My Page</label>
         <select th:field="*{parkId}">
@@ -40,29 +40,27 @@
     <input type="submit" value="Save Park"/>
 
 </form>
-<!--
-<div th:for="${park : parks}">
 
-    <p>
+<div>
 
-        <strong>Name: </strong><span><a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a></span><br />
-        <strong>Neighborhood: </strong><span th:text="${park.neighborhood}"></span><br />
-        <strong>Street Address: </strong><span th:text="${park.streetAddress}"></span><br />
-        <strong>City: </strong><span th:text="${park.city}" ></span><br />
-        <strong>Zip: </strong><span th:text="${park.zip}"></span><br />
-        <strong>Website: </strong><span ><a th:href="${park.website}" th:target="_blank">Visit Website</a></span><br />
 
-    </p>
 
-    <p><strong>Amenities</strong></p>
-    <ul th:each="amenity : ${park.amenities}">
-        <li th:text = "${amenity.name}"></li>
-    </ul>
+           <p th:each="park : ${parks}">
+
+                <strong>Name: </strong><span><a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a></span><br />
+                <strong>Neighborhood: </strong><span th:text="${park.neighborhood}"></span><br />
+                <strong>Website: </strong><span ><a th:href="${park.website}" th:target="_blank">Visit Website</a></span><br />
+
+            </p>
+
+
+
+
+
     </div>
-    -->
 
 
 
-</div>
+
 </body>
 </html>

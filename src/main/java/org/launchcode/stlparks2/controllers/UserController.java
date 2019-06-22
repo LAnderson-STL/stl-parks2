@@ -79,24 +79,26 @@ public class UserController {
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public String displayProfilePage(Model model, @PathVariable int userId){
 
-        User userX = userDao.findById(userId).orElse(null);
-        AddParkToProfileForm form = new AddParkToProfileForm(userX, parkDao.findAllByOrderByNameAsc());
+        User user = userDao.findById(userId).orElse(null);
+        AddParkToProfileForm form = new AddParkToProfileForm(user, parkDao.findAllByOrderByNameAsc());
         model.addAttribute("title", "My Park Page");
-        model.addAttribute("user", userX);
+        model.addAttribute("user", user);
         model.addAttribute("form", form);
-        //model.addAttribute("parks", user.getParks());
+        model.addAttribute("parks", user.getParks());
+        //model.addAttribute("profileParks", user.getParks());
 
         return "user/profile-page";
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
-    public String processAddPark(@ModelAttribute User userX, AddParkToProfileForm form, Model model) {
+    public String processAddPark(@ModelAttribute User user, AddParkToProfileForm form, Model model) {
 
 
-        User user = userDao.findById(form.getUserId()).orElse(null);
+        //User user = userDao.findById(form.getUserId()).orElse(null);
         Park park = parkDao.findById(form.getParkId()).orElse(null);
         user.addPark(park);
         userDao.save(user);
+
 
         return "redirect:" + user.getId();
 
