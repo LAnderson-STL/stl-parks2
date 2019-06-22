@@ -46,6 +46,9 @@ public class Park {
     @ManyToMany
     private List<Amenity> amenities;
 
+    @ManyToMany(mappedBy = "parks")
+    private List<User> users;
+
     //constructors
 
     public Park(){}

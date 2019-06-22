@@ -1,14 +1,14 @@
 package org.launchcode.stlparks2.controllers;
 
+import org.launchcode.stlparks2.models.Park;
 import org.launchcode.stlparks2.models.User;
+import org.launchcode.stlparks2.models.data.ParkDao;
 import org.launchcode.stlparks2.models.data.UserDao;
+import org.launchcode.stlparks2.models.forms.AddParkToProfileForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("user")
@@ -17,6 +17,9 @@ public class UserController {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private ParkDao parkDao;
 
     @RequestMapping(value = "register", method = RequestMethod.GET)
     public String displayAddUser(Model model) {
@@ -73,18 +76,34 @@ public class UserController {
 
 
 
-
-
-
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public String displayProfilePage(Model model, @PathVariable int userId){
 
-        User user = userDao.findById(userId).orElse(null);
+        User userX = userDao.findById(userId).orElse(null);
+        AddParkToProfileForm form = new AddParkToProfileForm(userX, parkDao.findAllByOrderByNameAsc());
         model.addAttribute("title", "My Park Page");
-        model.addAttribute("user", user);
+        model.addAttribute("user", userX);
+        model.addAttribute("form", form);
+        //model.addAttribute("parks", user.getParks());
 
         return "user/profile-page";
     }
+
+    @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
+    public String processAddPark(@ModelAttribute User userX, AddParkToProfileForm form, Model model) {
+
+
+        User user = userDao.findById(form.getUserId()).orElse(null);
+        Park park = parkDao.findById(form.getParkId()).orElse(null);
+        user.addPark(park);
+        userDao.save(user);
+
+        return "redirect:" + user.getId();
+
+
+    }
+
+
 
 
 

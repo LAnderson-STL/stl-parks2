@@ -4,10 +4,12 @@ package org.launchcode.stlparks2.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class User {
@@ -23,6 +25,9 @@ public class User {
     private String hashedPassword;
 
     private LocalDate joinDate;
+
+    @ManyToMany
+    private List<Park> parks;
 
     public User(String userName, String password){
         this.userName = userName;
@@ -46,6 +51,10 @@ public class User {
 
         return toReturn;
     }
+
+    public void addPark(Park park) {parks.add(park);}
+
+    public void deletePark(Park park) { parks.remove(park); }
 
     public int getId() {
         return id;
@@ -72,4 +81,11 @@ public class User {
         return joinDate;
     }
 
+    public List<Park> getParks() {
+        return parks;
+    }
+
+    public void setParks(List<Park> parks) {
+        this.parks = parks;
+    }
 }
