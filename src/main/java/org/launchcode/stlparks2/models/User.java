@@ -54,7 +54,7 @@ public class User {
 
     public void addPark(Park park) {parks.add(park);}
 
-    public void deletePark(Park park) { parks.remove(park); }
+    public void removePark(Park park) { parks.remove(park); }
 
     public int getId() {
         return id;

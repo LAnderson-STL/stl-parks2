@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container-fluid">
+
+<nav th:replace="fragments :: nav"></nav>
+
+<div th:replace="fragments :: admin-login"></div>
+
+<div class = "container">
+
+    <h1 th:text="${title}"></h1>
+
+
+
+</div>
+
+
+
+
+<h3>My Parks</h3>
+
+
+
+
+
+    <form method="post" >
+
+        <div th:each="park : ${parks}" class="checkbox">
+
+            <input type="checkbox" name="parkIds" th:value="${park.id}" th:id="${park.id}"/>
+            <a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a><br />
+            <p><strong>Neighborhood: </strong><span th:text="${park.neighborhood}"></span><br />
+                <span ><a th:href="${park.website}" th:target="_blank">Visit Website</a></span></p><br />
+
+        </div>
+
+        <input type="hidden" th:value="*{user.id}" name="userId" />
+        <input type="submit" value="Remove Park" />
+
+    </form>
+
+
+
+</div>
+
+
+
+
+</body>
+</html>

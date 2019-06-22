@@ -90,7 +90,7 @@ public class UserController {
         return "user/profile-page";
     }
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public String processAddPark(@ModelAttribute User user, AddParkToProfileForm form, Model model) {
 
 
@@ -102,8 +102,8 @@ public class UserController {
 
         return "redirect:" + user.getId();
 
-
     }
+
 
 
 

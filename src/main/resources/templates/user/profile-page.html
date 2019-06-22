@@ -44,16 +44,21 @@
 <div>
 
 
+    <form method="post" action="/user/delete-park">
 
-           <p th:each="park : ${parks}">
+           <div th:each="park : ${parks}" class="checkbox">
 
-                <strong>Name: </strong><span><a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a></span><br />
-                <strong>Neighborhood: </strong><span th:text="${park.neighborhood}"></span><br />
-                <strong>Website: </strong><span ><a th:href="${park.website}" th:target="_blank">Visit Website</a></span><br />
+               <input type="checkbox" name="parkIds" th:value="${park.id}" th:id="${park.id}"/>
+               <a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a><br />
+               <p><strong>Neighborhood: </strong><span th:text="${park.neighborhood}"></span><br />
+                <span ><a th:href="${park.website}" th:target="_blank">Visit Website</a></span></p><br />
 
-            </p>
+            </div>
 
+        <input type="hidden" th:value="*{user.id}" name="userId" />
+        <input type="submit" value="Remove Park" />
 
+    </form>
 
 
 
