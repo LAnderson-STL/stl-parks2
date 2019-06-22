@@ -152,6 +152,63 @@ public class HomeController {
 
     }
 
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String displayAddUser(Model model) {
+
+        model.addAttribute("title", "New User Registration");
+        model.addAttribute(new User());
+
+        return "park/register";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String processAddUser(Model model, @RequestParam String userName, String password, String verifyPassword) {
+        //TODO: error handling
+
+        User newUser = new User(userName, password);
+
+        if (newUser.getUserName().length() < 5 || newUser.getUserName().length() > 15){
+            model.addAttribute("title", "register");
+            model.addAttribute("userNameError", "Username must be 5 - 15 characters");
+            model.addAttribute("password", password);
+            return "park/register";
+        }
+
+
+        for (User user : userDao.findAll()){
+            if (user.getUserName().equals(newUser.getUserName())){
+                model.addAttribute("title", "register");
+                model.addAttribute("userNameError", "Username already exists");
+                model.addAttribute("userName", userName);
+                return "park/register";
+            }
+        }
+
+        if (password.length() < 5 || password.length() > 15){
+            model.addAttribute("title", "register");
+            model.addAttribute("passwordError", "Password must be 5 - 15 characters");
+            model.addAttribute("userName", userName);
+            return "park/register";
+        }
+
+        if (!password.equals(verifyPassword)){
+            model.addAttribute("title", "register");
+            model.addAttribute("verifyPasswordError", "Passwords do not match");
+            model.addAttribute("userName", userName);
+            return "park/register";
+        }
+
+        cookie = new Cookie("name", newUser.getUserName());
+        cookie.setMaxAge(60 * 60);
+        cookie.setPath("/user");
+        response.addCookie(cookie);
+
+        userDao.save(newUser);
+
+        return "redirect:/user/" + newUser.getId();
+
+    }
+
 
     @RequestMapping(value = "logout")
     public String logout() {

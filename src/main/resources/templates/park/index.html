@@ -5,6 +5,16 @@
 
 <nav th:replace="fragments :: nav"></nav>
 
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <img src="../static/images/lafayette.jpg" width="1000"
+             th:src="@{images/lafayette.jpg}"/>
+
+        <h1 class="display-4">Fluid jumbotron</h1>
+        <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+    </div>
+</div>
+
 <div th:replace="fragments :: admin-login"></div>
 
 <div class = "container">
