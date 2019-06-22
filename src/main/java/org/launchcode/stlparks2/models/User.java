@@ -52,7 +52,7 @@ public class User {
         return toReturn;
     }
 
-    public void addPark(Park park) {parks.add(park);}
+    public void addPark(Park park) {this.parks.add(park);}
 
     public void removePark(Park park) { parks.remove(park); }
 

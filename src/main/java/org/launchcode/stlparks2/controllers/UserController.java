@@ -90,12 +90,12 @@ public class UserController {
         return "user/profile-page";
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public String processAddPark(@ModelAttribute User user, AddParkToProfileForm form, Model model) {
+    @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
+    public String processAddPark(AddParkToProfileForm form, @RequestParam int parkId, int userId, Model model) {
 
 
-        //User user = userDao.findById(form.getUserId()).orElse(null);
-        Park park = parkDao.findById(form.getParkId()).orElse(null);
+        User user = userDao.findById(form.getUserId()).orElse(null);
+        Park park = parkDao.findById(parkId).orElse(null);
         user.addPark(park);
         userDao.save(user);
 
