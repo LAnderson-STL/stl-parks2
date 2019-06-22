@@ -32,7 +32,7 @@ public class User {
 
     public User(){}
 
-    public static String getSHA256(String input){
+    public  String getSHA256(String input){
 
         String toReturn = null;
         try {
@@ -64,6 +64,9 @@ public class User {
         return hashedPassword;
     }
 
+    public void setHashedPassword(String password) {
+        this.hashedPassword = getSHA256(password);
+    }
 
     public LocalDate getJoinDate() {
         return joinDate;

@@ -1,6 +1,5 @@
 package org.launchcode.stlparks2.controllers;
 
-import org.launchcode.stlparks2.models.Admin;
 import org.launchcode.stlparks2.models.Amenity;
 import org.launchcode.stlparks2.models.Park;
 import org.launchcode.stlparks2.models.User;
@@ -15,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 @Controller
@@ -32,6 +34,16 @@ public class HomeController {
 
     @Autowired
     AdminDao adminDao;
+
+
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private HttpServletResponse response;
+
+
+    private Cookie cookie;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model) {
@@ -83,30 +95,30 @@ public class HomeController {
 
     }
 
+
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String userLogin(Model model, @RequestParam String userName, String password) {
 
-        User user = userDao.findByUserName(userName).orElse(null);
-
-        for (User userX : userDao.findAll()) {
-            if (userX.getUserName().equals(user.getUserName()) && (userX.getHashedPassword().equals(user.getHashedPassword()))) {
-                return "redirect:/user/" + user.getId();
-            }
+        User user = userDao.findByUserName(userName);
+        if (user == null) {
+            model.addAttribute("loginError", "Username does not exist");
+            return "park/index";
         }
-        return "redirect:";
 
-    }
-
-    @RequestMapping(value = "", params = "admin-login", method = RequestMethod.POST)
-    public String adminLogin(Model model, @RequestParam String adminUserName, String adminPassword) {
-
-        Admin admin = adminDao.findByUserName(adminUserName).orElse(null);
-
-        for (Admin adminX : adminDao.findAll()) {
-            if (adminX.getUserName().equals(admin.getUserName()) && (adminX.getPassword().equals(adminX.getPassword()))) {
-                return "redirect:/admin";
-            }
+        if (user.getSHA256(password).equals(user.getHashedPassword())) {
+            cookie = new Cookie("name", user.getUserName());
+            cookie.setMaxAge(60 * 60);
+            cookie.setPath("/user");
+            response.addCookie(cookie);
+            return "redirect:/user/" + user.getId();
         }
+
+        model.addAttribute("loginError", "Username and password doesn't match");
         return "park/index";
+
     }
+
+
+
+
 }
