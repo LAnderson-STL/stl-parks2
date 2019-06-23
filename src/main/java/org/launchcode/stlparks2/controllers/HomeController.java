@@ -125,20 +125,21 @@ public class HomeController {
             return "redirect:/user/" + user.getId();
         }
 
-        model.addAttribute("loginError", "Username and password doesn't match");
-        return "park/index";
+        model.addAttribute("loginError", "Username and password do not match");
+        return "redirect:";
 
     }
 
     @RequestMapping(value = "", params = "admin-login", method = RequestMethod.POST)
     public String adminLogin(Model model, @RequestParam String adminUserName, String adminPassword){
         Admin admin = adminDao.findByUserName(adminUserName);
-        String hashedPassword = admin.getSHA256(adminPassword);
-        if (admin == null) {
-           // model.addAttribute("loginError", "Username does not exist");
+
+        if (admin == null ) {
+           model.addAttribute("adminUserNameError", "Username does not exist");
             return "redirect:";
         }
 
+        String hashedPassword = admin.getSHA256(adminPassword);
         if (hashedPassword.equals(admin.getPassword())) {
             cookie = new Cookie("name", admin.getUserName());
             cookie.setMaxAge(60 * 60);
@@ -146,8 +147,8 @@ public class HomeController {
             response.addCookie(cookie);
             return "redirect:/admin";
         }
-
-        //model.addAttribute("loginError", "Username and password doesn't match");
+        //TODO: fix error messages
+        model.addAttribute("adminPasswordError", "Username and password do not match");
         return "park/index";
 
     }
