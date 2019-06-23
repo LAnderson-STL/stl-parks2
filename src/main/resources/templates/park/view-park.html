@@ -37,7 +37,7 @@
         <li th:text = "${amenity.name}"></li>
     </ul>
     //TODO: fix this
-    <span th:unless="${park.amenities.size()}" >No Amenities Found</span>
+    <span th:unless="${park.amenities} and ${park.amenities.size()}">No Amenities Found</span>
 
 </div>
 

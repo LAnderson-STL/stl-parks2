@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 @Controller
@@ -145,6 +146,11 @@ public class HomeController {
             cookie.setMaxAge(60 * 60);
             cookie.setPath("/admin");
             response.addCookie(cookie);
+            HttpSession session = request.getSession();
+            session.setAttribute("name", admin.getUserName());
+
+
+
             return "redirect:/admin";
         }
         //TODO: fix error messages
