@@ -161,12 +161,12 @@ public class AdminController {
     @RequestMapping(value = "delete-amenity", method = RequestMethod.POST)
     public String processDeleteAmenity(@RequestParam int[] amenityIds) {
 
+
+
         for (int amenityId : amenityIds) {
             Amenity amenity = amenityDao.findById(amenityId).orElse(null);
-
-
             amenityDao.delete(amenity);
-        }
+            }
 
         return "redirect:/admin/delete-amenity";
 

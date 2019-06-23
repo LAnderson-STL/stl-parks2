@@ -24,7 +24,7 @@
 
 <h3>My Parks</h3>
 
-
+<p th:unless="${user.parks} and ${user.parks.size()}">No Saved Parks</p>
 
 <form method="POST" style="max-width:600px;" th:object="${form}">
     <div class="form-group">

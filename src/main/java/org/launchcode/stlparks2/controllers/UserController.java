@@ -116,7 +116,17 @@ public class UserController {
     }
 
 
-
+    @RequestMapping(value = "delete-park/{userId}", method = RequestMethod.POST)
+    public String processDeletePark(Model model, @PathVariable int userId, @RequestParam int[] parkIds) {
+        User user = userDao.findById(userId).orElse(null);
+        model.addAttribute("user", user);
+        model.addAttribute("title", "Remove Park");
+        for (int parkId : parkIds){
+            user.removePark(parkDao.findById(parkId).orElse(null));
+        }
+        userDao.save(user);
+        return "user/delete-park";
+    }
 
 
 

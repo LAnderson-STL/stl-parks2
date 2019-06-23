@@ -13,6 +13,8 @@
 
     <h1 th:text="${title}"></h1>
 
+    <a href="/user/delete-park">Back to My Profil</a>
+
 
 
 </div>
@@ -22,7 +24,7 @@
 
 <h3>My Parks</h3>
 
-
+    <p th:unless="${user.parks} and ${user.parks.size()}">No Saved Parks</p>
 
     <form method="post" th:object="${user}" >
 
