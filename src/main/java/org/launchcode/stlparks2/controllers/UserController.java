@@ -115,8 +115,8 @@ public class UserController {
         for (User userx : userDao.findAll()) {
             if (userx.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
                 User user = userDao.findById(userId).orElse(null);
-                List<Park> availableParks = new ArrayList<>();
 
+                List<Park> availableParks = new ArrayList<>();
                 for (Park park : parkDao.findAllByOrderByNameAsc()){
                     if (!user.getParks().contains(park)){
                         availableParks.add(park);

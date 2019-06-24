@@ -20,6 +20,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -180,7 +182,17 @@ public class AdminController {
     public String displayAddParkAmenities(Model model, @PathVariable int parkId) {
 
         Park park = parkDao.findById(parkId).orElse(null);
-        AddParkAmenitiesForm form = new AddParkAmenitiesForm(park, amenityDao.findAllByOrderByNameAsc());
+
+        List<Amenity> availableAmenities = new ArrayList<>();
+
+        for (Amenity amenity: amenityDao.findAllByOrderByNameAsc()){
+            if (!park.getAmenities().contains(amenity)){
+                availableAmenities.add(amenity);
+            }
+        }
+
+
+        AddParkAmenitiesForm form = new AddParkAmenitiesForm(park, availableAmenities);
         model.addAttribute("title", "Add Amenities for Park " + park.getName());
         model.addAttribute("form", form);
 
