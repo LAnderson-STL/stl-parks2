@@ -19,3 +19,16 @@ table.park-listing td:first-child {
 table.park-listing td:last-child {
     width: 80%;
 }
+
+.search-button {
+    text-align:center;
+}
+
+.search-button input{
+    width: 25%;
+    text-align: center;
+}
+
+.view-all-link{
+    font-size: 1.2em;
+}
