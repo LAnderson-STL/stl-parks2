@@ -106,6 +106,12 @@ public class UserController {
 
         String currentCookieName = WebUtils.getCookie(request, "name").getValue();
         User currentUser = userDao.findByUserName(currentCookieName);
+
+        User userFromPathVar = userDao.findById(userId).orElse(null);
+        if (!userFromPathVar.getUserName().equals(currentCookieName)){
+            return "redirect:/";
+        }
+
         for (User userx : userDao.findAll()) {
             if (userx.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
                 User user = userDao.findById(userId).orElse(null);
@@ -149,6 +155,12 @@ public class UserController {
 
         String currentCookieName = WebUtils.getCookie(request, "name").getValue();
         User currentUser = userDao.findByUserName(currentCookieName);
+
+        User userFromPathVar = userDao.findById(userId).orElse(null);
+        if (!userFromPathVar.getUserName().equals(currentCookieName)){
+            return "redirect:/";
+        }
+
         for (User userx : userDao.findAll()) {
             if (userx.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
                 User user = userDao.findById(userId).orElse(null);
