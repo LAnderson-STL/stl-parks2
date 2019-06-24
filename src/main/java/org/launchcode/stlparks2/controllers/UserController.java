@@ -17,6 +17,8 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("user")
@@ -113,7 +115,15 @@ public class UserController {
         for (User userx : userDao.findAll()) {
             if (userx.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
                 User user = userDao.findById(userId).orElse(null);
-                AddParkToProfileForm form = new AddParkToProfileForm(user, parkDao.findAllByOrderByNameAsc());
+                List<Park> availableParks = new ArrayList<>();
+
+                for (Park park : parkDao.findAllByOrderByNameAsc()){
+                    if (!user.getParks().contains(park)){
+                        availableParks.add(park);
+                    }
+                }
+
+                AddParkToProfileForm form = new AddParkToProfileForm(user, availableParks);
                 model.addAttribute("title", "My Park Page");
                 model.addAttribute("user", user);
                 model.addAttribute("form", form);
