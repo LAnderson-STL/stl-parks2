@@ -1,5 +1,6 @@
 package org.launchcode.stlparks2.controllers;
 
+import org.launchcode.stlparks2.models.Admin;
 import org.launchcode.stlparks2.models.Amenity;
 import org.launchcode.stlparks2.models.Park;
 import org.launchcode.stlparks2.models.User;
@@ -13,10 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
-
 
 
 @Controller
@@ -35,6 +38,14 @@ public class AdminController {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private HttpServletResponse response;
+
+    private Cookie cookie;
+
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model) {
@@ -42,8 +53,23 @@ public class AdminController {
         model.addAttribute("title", "Admin Home");
         model.addAttribute("parks", parkDao.findAll());
 
-        return "admin/index";
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null){
+            return "redirect:/";
+        }
+        //gets name stored in active cookie
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+
+        Admin currentUser = adminDao.findByUserName(currentCookieName);
+        for (Admin admin : adminDao.findAll()) {
+                if (admin.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+                    return "admin/index";
+                }
+        }
+        return "redirect:/";
     }
+
 
     @RequestMapping(value = "add-park", method = RequestMethod.GET)
     public String displayAddPark(Model model) {
@@ -51,8 +77,24 @@ public class AdminController {
         model.addAttribute("title", "Add New Park");
         model.addAttribute(new Park());
 
-        return "admin/add-park";
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null){
+            return "redirect:/";
+        }
+        //gets name stored in active cookie
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+
+        Admin currentUser = adminDao.findByUserName(currentCookieName);
+        for (Admin admin : adminDao.findAll()) {
+            if (admin.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+                return "admin/add-park";
+            }
+        }
+        return "redirect:/";
     }
+
+
 
     @RequestMapping(value = "add-park", method = RequestMethod.POST)
     public String processAddPark(@ModelAttribute @Valid Park newPark, Errors errors, Model model) {
@@ -78,7 +120,22 @@ public class AdminController {
         model.addAttribute("title", "Add Successful!");
 
 
-        return "admin/view-park";
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null){
+            return "redirect:/";
+        }
+        //gets name stored in active cookie
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+
+        Admin currentUser = adminDao.findByUserName(currentCookieName);
+        for (Admin admin : adminDao.findAll()) {
+            if (admin.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+                return "admin/view-park";
+            }
+        }
+        return "redirect:/";
+
     }
 
     @RequestMapping(value = "add-amenity", method = RequestMethod.GET)
@@ -86,7 +143,23 @@ public class AdminController {
         model.addAttribute("title", "Add New Amenity");
         model.addAttribute(new Amenity());
 
-        return "admin/add-amenity";
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null){
+            return "redirect:/";
+        }
+
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+
+        Admin currentUser = adminDao.findByUserName(currentCookieName);
+        for (Admin admin : adminDao.findAll()) {
+            if (admin.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+                return "admin/add-amenity";
+            }
+        }
+        return "redirect:/";
+
+
     }
 
     @RequestMapping(value = "add-amenity", method = RequestMethod.POST)
@@ -111,7 +184,23 @@ public class AdminController {
         model.addAttribute("title", "Add Amenities for Park " + park.getName());
         model.addAttribute("form", form);
 
-        return "admin/add-park-amenities";
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null){
+            return "redirect:/";
+        }
+
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+
+        Admin currentUser = adminDao.findByUserName(currentCookieName);
+        for (Admin admin : adminDao.findAll()) {
+            if (admin.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+                return "admin/add-park-amenities";
+            }
+        }
+        return "redirect:/";
+
+
     }
 
     @RequestMapping(value = "add-park-amenities", method = RequestMethod.POST)
@@ -132,7 +221,23 @@ public class AdminController {
         model.addAttribute("parks", parkDao.findAllByOrderByNameAsc());
         model.addAttribute("title", "Delete Park");
 
-        return "admin/delete-park";
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null){
+            return "redirect:/";
+        }
+
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+
+        Admin currentUser = adminDao.findByUserName(currentCookieName);
+        for (Admin admin : adminDao.findAll()) {
+            if (admin.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+                return "admin/delete-park";
+            }
+        }
+        return "redirect:/";
+
+
     }
 
     @RequestMapping(value = "delete-park", method = RequestMethod.POST)
@@ -154,8 +259,21 @@ public class AdminController {
         model.addAttribute("amenities", amenityDao.findAllByOrderByNameAsc());
         model.addAttribute("title", "Delete Amenities");
 
+        Cookie[] cookies = request.getCookies();
 
-        return "admin/delete-amenity";
+        if (cookies == null){
+            return "redirect:/";
+        }
+
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+
+        Admin currentUser = adminDao.findByUserName(currentCookieName);
+        for (Admin admin : adminDao.findAll()) {
+            if (admin.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+                return "admin/delete-amenity";
+            }
+        }
+        return "redirect:/";
     }
 
     @RequestMapping(value = "delete-amenity", method = RequestMethod.POST)
@@ -168,6 +286,7 @@ public class AdminController {
             amenityDao.delete(amenity);
             }
 
+
         return "redirect:/admin/delete-amenity";
 
 
@@ -178,7 +297,22 @@ public class AdminController {
         model.addAttribute("user", userDao.findAll());
         model.addAttribute("title", "Delete Park");
 
-        return "admin/delete-user";
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null){
+            return "redirect:/";
+        }
+
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+
+        Admin currentUser = adminDao.findByUserName(currentCookieName);
+        for (Admin admin : adminDao.findAll()) {
+            if (admin.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+                return "admin/delete-user";
+            }
+        }
+        return "redirect:/";
+
     }
 
     @RequestMapping(value = "delete-user", method = RequestMethod.POST)

@@ -14,6 +14,6 @@ import javax.transaction.Transactional;
 
 public interface AdminDao extends CrudRepository<Admin, Integer> {
 
-    public Admin findByUserName(String adminUserName);
+    public Admin findByUserName(String userName);
 
 }

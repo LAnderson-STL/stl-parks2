@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 @Controller
@@ -143,13 +142,9 @@ public class HomeController {
         String hashedPassword = admin.getSHA256(adminPassword);
         if (hashedPassword.equals(admin.getPassword())) {
             cookie = new Cookie("name", admin.getUserName());
-            cookie.setMaxAge(60 * 60);
+            cookie.setMaxAge(60);
             cookie.setPath("/admin");
             response.addCookie(cookie);
-            HttpSession session = request.getSession();
-            session.setAttribute("name", admin.getUserName());
-
-
 
             return "redirect:/admin";
         }
@@ -219,10 +214,37 @@ public class HomeController {
 
     @RequestMapping(value = "logout")
     public String logout() {
-        cookie = new Cookie("userName", "");
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+
+// Request object to fetch the cookies
+
+
+        // Response object to delete the cookies
+
+        response.setContentType("text/html");
+
+        Cookie[] cookies = request.getCookies();
+
+        // Delete all the cookies
+        if (cookies != null) {
+
+            for (int i = 0; i < cookies.length; i++) {
+
+                Cookie cookie = cookies[i];
+                cookies[i].setValue(null);
+                cookies[i].setMaxAge(0);
+                response.addCookie(cookie);
+            }
+        }
+
+
+
+
+
+         //Cookie cookie = new Cookie("userName", "");
+           // cookie.setMaxAge(0);
+            //cookie.setPath("/");
+           // response.addCookie(cookie);
+
         return "redirect:/";
     }
 
