@@ -32,3 +32,21 @@ table.park-listing td:last-child {
 .view-all-link{
     font-size: 1.2em;
 }
+
+.photo {
+    width: 100%;
+    border-radius: 8px;
+    margin-left: -10%;
+    margin-right: -10%;
+
+}
+
+.jumbotron {
+background-color: #646970 !important;
+}
+
+.logo{
+width: 40%;
+margin-top: -5%;
+
+}
