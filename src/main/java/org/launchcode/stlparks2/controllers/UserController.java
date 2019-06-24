@@ -51,50 +51,48 @@ public class UserController {
     public String processAddUser(Model model, @RequestParam String userName, String password, String verifyPassword) {
         //TODO: error handling
 
-            User newUser = new User(userName, password);
+        User newUser = new User(userName, password);
 
-            if (newUser.getUserName().length() < 5 || newUser.getUserName().length() > 15){
+        if (newUser.getUserName().length() < 5 || newUser.getUserName().length() > 15) {
+            model.addAttribute("title", "register");
+            model.addAttribute("userNameError", "Username must be 5 - 15 characters");
+            model.addAttribute("password", password);
+            return "user/register";
+        }
+
+
+        for (User user : userDao.findAll()) {
+            if (user.getUserName().equals(newUser.getUserName())) {
                 model.addAttribute("title", "register");
-                model.addAttribute("userNameError", "Username must be 5 - 15 characters");
-                model.addAttribute("password", password);
-                return "user/register";
-            }
-
-
-            for (User user : userDao.findAll()){
-                if (user.getUserName().equals(newUser.getUserName())){
-                    model.addAttribute("title", "register");
-                    model.addAttribute("userNameError", "Username already exists");
-                    model.addAttribute("userName", userName);
-                    return "user/register";
-                }
-            }
-
-            if (password.length() < 5 || password.length() > 15){
-                model.addAttribute("title", "register");
-                model.addAttribute("passwordError", "Password must be 5 - 15 characters");
+                model.addAttribute("userNameError", "Username already exists");
                 model.addAttribute("userName", userName);
                 return "user/register";
             }
+        }
 
-            if (!password.equals(verifyPassword)){
-                model.addAttribute("title", "register");
-                model.addAttribute("verifyPasswordError", "Passwords do not match");
-                model.addAttribute("userName", userName);
-                return "user/register";
-            }
+        if (password.length() < 5 || password.length() > 15) {
+            model.addAttribute("title", "register");
+            model.addAttribute("passwordError", "Password must be 5 - 15 characters");
+            model.addAttribute("userName", userName);
+            return "user/register";
+        }
 
-            userDao.save(newUser);
-            cookie = new Cookie("name", newUser.getUserName());
-            cookie.setMaxAge(60 * 60);
-            cookie.setPath("/user");
-            response.addCookie(cookie);
+        if (!password.equals(verifyPassword)) {
+            model.addAttribute("title", "register");
+            model.addAttribute("verifyPasswordError", "Passwords do not match");
+            model.addAttribute("userName", userName);
+            return "user/register";
+        }
 
-            return "redirect:" + newUser.getId();
+        userDao.save(newUser);
+        cookie = new Cookie("name", newUser.getUserName());
+        cookie.setMaxAge(60 * 60);
+        cookie.setPath("/user");
+        response.addCookie(cookie);
+
+        return "redirect:" + newUser.getId();
 
     }
-
-
 
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
@@ -108,7 +106,7 @@ public class UserController {
         User currentUser = userDao.findByUserName(currentCookieName);
 
         User userFromPathVar = userDao.findById(userId).orElse(null);
-        if (!userFromPathVar.getUserName().equals(currentCookieName)){
+        if (!userFromPathVar.getUserName().equals(currentCookieName)) {
             return "redirect:/";
         }
 
@@ -146,7 +144,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "delete-park/{userId}", method = RequestMethod.GET)
-    public String displayDeletePark(Model model, @PathVariable int userId){
+    public String displayDeletePark(Model model, @PathVariable int userId) {
 
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
@@ -157,7 +155,7 @@ public class UserController {
         User currentUser = userDao.findByUserName(currentCookieName);
 
         User userFromPathVar = userDao.findById(userId).orElse(null);
-        if (!userFromPathVar.getUserName().equals(currentCookieName)){
+        if (!userFromPathVar.getUserName().equals(currentCookieName)) {
             return "redirect:/";
         }
 
@@ -181,13 +179,34 @@ public class UserController {
         User user = userDao.findById(userId).orElse(null);
         model.addAttribute("user", user);
         model.addAttribute("title", "Remove Park");
-        for (int parkId : parkIds){
+        for (int parkId : parkIds) {
             user.removePark(parkDao.findById(parkId).orElse(null));
         }
         userDao.save(user);
         return "user/delete-park";
     }
 
+    @RequestMapping(value = "profile-link", method = RequestMethod.GET)
+    public String followProfileLink() {
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null) {
+            return "redirect:/";
+        }
+
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+
+        User currentUser = userDao.findByUserName(currentCookieName);
+        for (User user : userDao.findAll()) {
+            if (user.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+
+                return "redirect:/user/" + currentUser.getId();
+            }
+
+        }
 
 
+        return "redirect:/";
+
+    }
 }
