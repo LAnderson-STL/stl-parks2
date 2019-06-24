@@ -82,7 +82,7 @@ public class AdminController {
         if (cookies == null){
             return "redirect:/";
         }
-        //gets name stored in active cookie
+
         String currentCookieName = WebUtils.getCookie(request, "name").getValue();
 
         Admin currentUser = adminDao.findByUserName(currentCookieName);

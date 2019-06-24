@@ -8,7 +8,15 @@ import org.launchcode.stlparks2.models.forms.AddParkToProfileForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.WebUtils;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("user")
@@ -20,6 +28,15 @@ public class UserController {
 
     @Autowired
     private ParkDao parkDao;
+
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private HttpServletResponse response;
+
+
+    private Cookie cookie;
 
     @RequestMapping(value = "register", method = RequestMethod.GET)
     public String displayAddUser(Model model) {
@@ -68,6 +85,10 @@ public class UserController {
             }
 
             userDao.save(newUser);
+            cookie = new Cookie("name", newUser.getUserName());
+            cookie.setMaxAge(60 * 60);
+            cookie.setPath("/user");
+            response.addCookie(cookie);
 
             return "redirect:" + newUser.getId();
 
@@ -77,18 +98,31 @@ public class UserController {
 
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public String displayProfilePage(Model model, @PathVariable int userId){
+    public String displayProfilePage(Model model, @PathVariable int userId) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return "redirect:/";
+        }
 
-        User user = userDao.findById(userId).orElse(null);
-        AddParkToProfileForm form = new AddParkToProfileForm(user, parkDao.findAllByOrderByNameAsc());
-        model.addAttribute("title", "My Park Page");
-        model.addAttribute("user", user);
-        model.addAttribute("form", form);
-        model.addAttribute("parks", user.getParks());
-        //model.addAttribute("profileParks", user.getParks());
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+        User currentUser = userDao.findByUserName(currentCookieName);
+        for (User userx : userDao.findAll()) {
+            if (userx.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+                User user = userDao.findById(userId).orElse(null);
+                AddParkToProfileForm form = new AddParkToProfileForm(user, parkDao.findAllByOrderByNameAsc());
+                model.addAttribute("title", "My Park Page");
+                model.addAttribute("user", user);
+                model.addAttribute("form", form);
+                model.addAttribute("parks", user.getParks());
+                //model.addAttribute("profileParks", user.getParks());
 
-        return "user/profile-page";
+                return "user/profile-page";
+            }
+
+        }
+        return "redirect:/";
     }
+
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
     public String processAddPark(AddParkToProfileForm form, @RequestParam int parkId, int userId, Model model) {
@@ -107,12 +141,26 @@ public class UserController {
 
     @RequestMapping(value = "delete-park/{userId}", method = RequestMethod.GET)
     public String displayDeletePark(Model model, @PathVariable int userId){
-        User user = userDao.findById(userId).orElse(null);
-        AddParkToProfileForm form = new AddParkToProfileForm(user, parkDao.findAllByOrderByNameAsc());
-        model.addAttribute("user", user);
-        model.addAttribute("title", "Remove Park");
 
-        return "user/delete-park";
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return "redirect:/";
+        }
+
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+        User currentUser = userDao.findByUserName(currentCookieName);
+        for (User userx : userDao.findAll()) {
+            if (userx.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+                User user = userDao.findById(userId).orElse(null);
+                AddParkToProfileForm form = new AddParkToProfileForm(user, parkDao.findAllByOrderByNameAsc());
+                model.addAttribute("user", user);
+                model.addAttribute("title", "Remove Park");
+
+                return "user/delete-park";
+            }
+        }
+
+        return "redirect:/";
     }
 
 
