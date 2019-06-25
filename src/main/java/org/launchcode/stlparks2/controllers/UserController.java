@@ -242,4 +242,25 @@ public class UserController {
 
         return "redirect:/";
     }
+
+    @RequestMapping(value = "logout")
+    public String logOut() {
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return "redirect:/";
+        }
+
+
+        cookie = new Cookie("name", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/user");
+        response.addCookie(cookie);
+        return "redirect:/";
+
+
+
+
+
+    }
 }
