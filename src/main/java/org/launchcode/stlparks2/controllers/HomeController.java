@@ -119,7 +119,6 @@ public class HomeController {
 
         if (user.getSHA256(password).equals(user.getHashedPassword())) {
             cookie = new Cookie("name", user.getUserName());
-            cookie.setMaxAge(60 * 60);
             cookie.setPath("/user");
             response.addCookie(cookie);
             return "redirect:/user/" + user.getId();
@@ -142,7 +141,6 @@ public class HomeController {
         String hashedPassword = admin.getSHA256(adminPassword);
         if (hashedPassword.equals(admin.getPassword())) {
             cookie = new Cookie("name", admin.getUserName());
-            cookie.setMaxAge(60);
             cookie.setPath("/admin");
             response.addCookie(cookie);
 
@@ -201,7 +199,6 @@ public class HomeController {
         }
 
         cookie = new Cookie("name", newUser.getUserName());
-        cookie.setMaxAge(60 * 60);
         cookie.setPath("/user");
         response.addCookie(cookie);
 
@@ -213,42 +210,24 @@ public class HomeController {
 
 
     @RequestMapping(value = "logout")
-    public String logout() {
-
-// Request object to fetch the cookies
-
-
-        // Response object to delete the cookies
-
-        response.setContentType("text/html");
+    public String logOut() {
 
         Cookie[] cookies = request.getCookies();
-
-        // Delete all the cookies
-        if (cookies != null) {
-
-            for (int i = 0; i < cookies.length; i++) {
-
-                Cookie cookie = cookies[i];
-                cookies[i].setValue(null);
-                cookies[i].setMaxAge(0);
-                response.addCookie(cookie);
-            }
+        if (cookies == null) {
+            return "redirect:/";
         }
 
 
-
-
-
-         //Cookie cookie = new Cookie("userName", "");
-           // cookie.setMaxAge(0);
-            //cookie.setPath("/");
-           // response.addCookie(cookie);
-
-        return "redirect:/";
+        cookie = new Cookie("name", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/user");
+        response.addCookie(cookie);
+        return "redirect:";
     }
-
-
-
-
 }
+
+
+
+
+
+

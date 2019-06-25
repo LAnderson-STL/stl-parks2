@@ -339,4 +339,21 @@ public class AdminController {
 
         return "redirect:/admin/delete-user";
     }
+
+
+    @RequestMapping(value = "admin-logout")
+    public String logOut() {
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return "redirect:/";
+        }
+
+
+        cookie = new Cookie("name", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/admin");
+        response.addCookie(cookie);
+        return "redirect:";
+    }
 }

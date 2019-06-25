@@ -88,7 +88,6 @@ public class UserController {
 
         userDao.save(newUser);
         cookie = new Cookie("name", newUser.getUserName());
-        cookie.setMaxAge(60 * 60);
         cookie.setPath("/user");
         response.addCookie(cookie);
 
