@@ -119,7 +119,7 @@ public class AdminController {
     public String viewPark(Model model, @PathVariable int parkId) {
         Park newPark = parkDao.findById(parkId).orElse(null);
         model.addAttribute("park", newPark);
-        model.addAttribute("title", "Add Successful!");
+        model.addAttribute("title", "View Park Info/Add Park Amenities");
 
 
         Cookie[] cookies = request.getCookies();

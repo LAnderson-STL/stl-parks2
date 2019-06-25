@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body class="container-fluid">
+<body class="container-fluid page-container">
 
 <nav th:replace="fragments :: nav"></nav>
 
@@ -91,18 +91,12 @@
 
 
 
-    <footer class="page-footer font-small blue">
 
-
-        <div class="footer text-center py-3">Data and Photos courtesy of
-            <a href="https://www.stlouis-mo.gov/government/departments/parks/"> StLouis-MO.gov</a>
-        </div>
-        <!-- Copyright -->
-
-    </footer>
 
 
 
 </div>
+<br />
+<footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

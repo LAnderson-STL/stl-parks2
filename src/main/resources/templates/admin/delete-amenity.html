@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body class="container-fluid">
+<body class="container-fluid page-container">
 
 <nav th:replace="fragments :: nav"></nav>
 
-<div class = "container">
+<div class = "container content-wrap">
     <h1 th:text="${title}"></h1>
 
     <nav>
@@ -31,6 +31,9 @@
 
         <input type="submit" value="Delete Amenity" />
     </form>
+
 </div>
+<br />
+<footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

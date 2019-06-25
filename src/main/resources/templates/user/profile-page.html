@@ -3,13 +3,13 @@
 
 <head th:replace="fragments :: head"></head>
 
-<body class="container-fluid">
+<body class="container-fluid page-container">
 
 <nav th:replace="fragments :: nav"></nav>
 
 <div th:replace="fragments :: admin-login"></div>
 
-<div class = "container">
+<div class = "container content-wrap">
 
     <h1 th:text="${title}"></h1>
 
@@ -47,9 +47,9 @@
 
     <p th:each="park : ${parks}">
 
-        <strong>Name: </strong><span><a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a></span><br />
-        <strong>Neighborhood: </strong><span th:text="${park.neighborhood}"></span><br />
-        <strong>Website: </strong><span ><a th:href="${park.website}" th:target="_blank">Visit Website</a></span><br />
+        <strong>Name:  &nbsp</strong><span class="park-name"><a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a></span><br />
+        <strong>Neighborhood: &nbsp</strong><span th:text="${park.neighborhood}"></span><br />
+        <strong>Website: &nbsp</strong><span ><a th:href="${park.website}" th:target="_blank">Visit StLouis-MO.gov for more info</a></span><br />
 
     </p>
 
@@ -58,9 +58,9 @@
 
 
 </div>
+<br />
 
-
-
+<footer th:replace="fragments :: footer"></footer>
 
 </body>
 </html>

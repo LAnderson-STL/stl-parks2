@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body class="container-fluid">
+<body class="container-fluid page-container">
 
 <nav th:replace="fragments :: nav"></nav>
 
 <div th:replace="fragments :: admin-login"></div>
 
-<div class = "container">
+<div class = "container content-wrap">
     <h1 th:text="${title}"></h1>
 
 
@@ -25,7 +25,7 @@
         <table class="park-listing">
             <tr>
                 <th>Name</th>
-                <td ><a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a></td>
+                <td ><a class="park-name" th:href="'/view/' + ${park.id}" th:text="${park.name}"></a></td>
             </tr>
             <tr>
                 <th>Neighborhood</th>
@@ -37,14 +37,14 @@
             </tr>
             <tr>
                 <th>Website</th>
-                <td ><a th:href="${park.website}" th:target="_blank">Visit Website</a></td>
+                <td ><a th:href="${park.website}" th:target="_blank">Visit StLouis-MO.gov for more info</a></td>
             </tr>
 
             <tr>
                 <th>Amenities</th>
                 <td>
                     <span th:unless="${park.amenities} and ${park.amenities.size()}">No Amenities Found</span>
-                    <ul th:each="amenity : ${park.amenities}">
+                    <ul class="amenity-list" th:each="amenity : ${park.amenities}">
                         <li th:text = "${amenity.name}"></li>
                     </ul>
 
@@ -55,6 +55,10 @@
 
         </table>
     </div>
+
+
 </div>
+<br />
+<footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

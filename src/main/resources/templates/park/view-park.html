@@ -3,11 +3,11 @@
 
 <head th:replace="fragments :: head"></head>
 
-<body class="container" th:object="${park}">
+<body class="container-fluid page-container" th:object="${park}">
 
 <nav th:replace="fragments :: nav"></nav>
 
-
+<div class="container content-wrap">
 
 
 <br />
@@ -22,26 +22,32 @@
 
     <p>
 
-        <strong>Name: </strong><span th:text="${park.name}"> </span><br />
-        <strong>Neighborhood: </strong><span th:text="${park.neighborhood}"></span><br />
-        <strong>Street Address: </strong><span th:text="${park.streetAddress}"></span><br />
-        <strong>City: </strong><span th:text="${park.city}" ></span><br />
-        <strong>Zip: </strong><span th:text="${park.zip}"></span><br />
-        <strong>Website: </strong><span ><a th:href="${park.website}" th:target="_blank">Visit Website</a></span><br />
+        <strong>Name: &nbsp</strong><span class="park-name" th:text="${park.name}"> </span><br />
+        <strong>Neighborhood: &nbsp</strong><span th:text="${park.neighborhood}"></span><br />
+        <strong>Street Address: &nbsp</strong><span th:text="${park.streetAddress}"></span><br />
+        <strong>City: &nbsp</strong><span th:text="${park.city}" ></span><br />
+        <strong>Zip: &nbsp</strong><span th:text="${park.zip}"></span><br />
+        <strong>Website: &nbsp</strong><span ><a th:href="${park.website}" th:target="_blank">Visit StLouis-MO.gov for more info</a></span><br />
 
     </p>
 
-    <p><strong>Amenities</strong></p>
+    <p><strong>Amenities:</strong></p>
 
-    <ul th:each="amenity : ${park.amenities}">
+    <ul class="amenity-list" th:each="amenity : ${park.amenities}">
         <li th:text = "${amenity.name}"></li>
     </ul>
-    //TODO: fix this
+
     <span th:unless="${park.amenities} and ${park.amenities.size()}">No Amenities Found</span>
+
+
 
 </div>
 
 
+
+</div>
+<br />
+<footer th:replace="fragments :: footer"></footer>
 
 </body>
 </html>

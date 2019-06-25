@@ -66,3 +66,32 @@ color: white;
 color: white;
 
 }
+
+.park-name {
+font-size: 1.2em;
+font-weight:bold;
+}
+
+.amenity-list{
+display: inline-block;
+list-style-type: square;
+}
+
+.footer{
+position: absolute;
+width: 100%;
+bottom: 0;
+height: 2.5rem;
+text-align: center;
+
+}
+
+.page-container {
+  position: relative;
+  min-height: 100vh;
+
+}
+
+.content-wrap {
+  padding-bottom: 2.5rem;    /* Footer height */
+}
