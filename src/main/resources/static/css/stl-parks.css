@@ -53,10 +53,11 @@ color: white;
 
 .find-my-park-btn {
     width: 100%;
+    height: 50px;
     text-align: center;
 }
 
 .main-desc {
     font-size: 1.1em;
-    align-text: justify;
+    text-align: justify;
 }
