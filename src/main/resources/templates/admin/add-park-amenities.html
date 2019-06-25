@@ -6,6 +6,7 @@
 <nav th:replace="fragments :: nav"></nav>
 
 <div class = "container content-wrap">
+    <br/>
     <h1 th:text="${title}"></h1>
 
     <nav>
@@ -32,6 +33,7 @@
                         th:value="${amenity.id}"></option>
             </select>
         </div>
+        <br/>
 
         <input type="hidden" th:value="*{park.id}" name="parkId" />
         <input type="submit" value="Add Amenities"/>

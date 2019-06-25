@@ -116,14 +116,14 @@ public class UserController {
                 User user = userDao.findById(userId).orElse(null);
 
                 List<Park> availableParks = new ArrayList<>();
-                for (Park park : parkDao.findAllByOrderByNameAsc()){
-                    if (!user.getParks().contains(park)){
+                for (Park park : parkDao.findAllByOrderByNameAsc()) {
+                    if (!user.getParks().contains(park)) {
                         availableParks.add(park);
                     }
                 }
 
                 AddParkToProfileForm form = new AddParkToProfileForm(user, availableParks);
-                model.addAttribute("title", "My Park Page");
+                model.addAttribute("title", "MyParks");
                 model.addAttribute("user", user);
                 model.addAttribute("form", form);
                 model.addAttribute("parks", user.getParks());
@@ -217,5 +217,28 @@ public class UserController {
 
         return "redirect:/";
 
+    }
+
+    @RequestMapping(value = "remove-link", method = RequestMethod.GET)
+    public String followRemoveLink() {
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null) {
+            return "redirect:/";
+        }
+
+        String currentCookieName = WebUtils.getCookie(request, "name").getValue();
+
+        User currentUser = userDao.findByUserName(currentCookieName);
+        for (User user : userDao.findAll()) {
+            if (user.getUserName().toLowerCase().equals(currentUser.getUserName().toLowerCase())) {
+
+                return "redirect:/user/delete-park/" + currentUser.getId();
+            }
+
+        }
+
+
+        return "redirect:/";
     }
 }

@@ -8,6 +8,7 @@
 <nav th:replace="fragments :: nav"></nav>
 
 <div class = "container content-wrap">
+    <br/>
 
     <h1 th:text="${title}"></h1>
 
@@ -58,9 +59,10 @@
             <input class="form-control" th:field="*{website}" />
             <span th:errors="*{website}" class="error"></span>
         </div>
+        <br/>
 
 
-        <input type="submit" value="Add Park" />
+        <input type="submit" class="btn btn-primary" value="Add Park" />
 
     </form>
 

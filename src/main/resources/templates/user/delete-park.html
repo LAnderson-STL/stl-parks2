@@ -10,19 +10,23 @@
 <div th:replace="fragments :: admin-login"></div>
 
 <div class = "container content-wrap">
+    <br/>
 
     <h1 th:text="${title}"></h1>
 
-    <a href="/user/delete-park">Back to My Profil</a>
+    <a href="/user/delete-park">Back to My Profile</a>
 
 
 
-</div>
 
 
 
+
+    <br/>
+    <br/>
 
 <h3>My Parks</h3>
+    <br/>
 
     <p th:unless="${user.parks} and ${user.parks.size()}">No Saved Parks</p>
 
@@ -33,17 +37,21 @@
             <input type="checkbox" name="parkIds" th:value="${park.id}" th:id="${park.id}"/>
             <a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a><br />
             <p><strong>Neighborhood: </strong><span th:text="${park.neighborhood}"></span><br />
-                <span ><a th:href="${park.website}" th:target="_blank">Visit Website</a></span></p><br />
+
 
         </div>
 
+        <br/>
+
         <input type="hidden" th:value="*{id}" name="userId" />
-        <input type="submit" value="Remove Park(s)" />
+
+        <input type="submit" class="btn btn-primary" value="Remove Park(s)" />
 
     </form>
 
 
 
+</div>
 </div>
 <br />
 

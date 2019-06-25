@@ -95,3 +95,19 @@ text-align: center;
 .content-wrap {
   padding-bottom: 2.5rem;    /* Footer height */
 }
+
+.card:nth-child(3n+2){
+background: #FF8800 !important;
+}
+
+.card:nth-child(3n+0){
+background: #1C2331 !important;
+}
+
+.add-park-btn {
+width:45%;
+}
+
+.remove-park-btn {
+width:45%;
+}
