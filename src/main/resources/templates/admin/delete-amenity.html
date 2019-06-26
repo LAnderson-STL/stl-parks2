@@ -24,7 +24,7 @@
 
     <form method="post">
 
-        <div class="row delete-amenities">
+        <div class="row alt delete-amenities">
 
         <div th:each="amenity: ${amenities}" class="checkbox col-3" style="display:inline-block">
             <input type="checkbox" name="amenityIds" th:value="${amenity.id}" th:id="${amenity.id}"/>

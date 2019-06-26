@@ -3,13 +3,13 @@
 
 <head th:replace="fragments :: head"></head>
 
-<body class="container-fluid">
+<body class="container-fluid page-container">
 
 <nav th:replace="fragments :: nav"></nav>
 
 <div th:replace="fragments :: admin-login"></div>
 
-<div class = "container">
+<div class = "container content-wrap">
     <br/>
 
     <h1 th:text="${title}"></h1>
@@ -25,7 +25,7 @@
     <br/>
     <br/>
 
-<h3>My Parks</h3>
+<h3>Favorites</h3>
     <br/>
 
     <p th:unless="${user.parks} and ${user.parks.size()}">No Saved Parks</p>

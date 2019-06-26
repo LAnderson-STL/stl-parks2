@@ -25,15 +25,21 @@
 
     <form method="post">
 
-        <div th:each="park: ${parks}" class="checkbox">
+        <div class="row alt delete-park-admin">
+
+        <div th:each="park: ${parks}" class="checkbox col-3"  style="display:inline-block">
             <input type="checkbox" name="parkIds" th:value="${park.id}" th:id="${park.id}"/>
             <label th:for="${park.id}" th:text="${park.name}"></label>
             <br />
         </div>
+        </div>
         <br/>
-
+        <div class="search-button">
         <input type="submit" class="btn btn-primary" value="Delete Park" />
+        </div>
+    <br />
     </form>
+
 
 </div>
 <br />

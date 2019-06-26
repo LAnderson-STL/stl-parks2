@@ -10,6 +10,7 @@
 <div class = "container content-wrap">
     <br/>
     <h1 th:text="${title}"></h1>
+    <br />
 
     <nav>
         <a href="/admin/add-park">Add New Park</a> |
@@ -23,9 +24,11 @@
 
 
     <br />
-    <h2>Welcome to Admin Home!</h2>
+
 
     <h4>Parks List</h4>
+
+    <br />
 
     <ul>
         <li th:each="park : ${parks}">

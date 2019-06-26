@@ -3,11 +3,11 @@
 
 <head th:replace="fragments :: head"></head>
 
-<body class="container-fluid">
+<body class="container-fluid page-container">
 
 <nav th:replace="fragments :: nav"></nav>
 
-<div class = "container">
+<div class = "container content-wrap">
     <br/>
 
     <h1 th:text="${title}"></h1>
@@ -62,7 +62,11 @@
         <br/>
 
 
-        <input type="submit" class="btn btn-primary" value="Add Park" />
+
+        <div class="search-button">
+            <input type="submit" class="btn btn-primary" value="Add Park" />
+        </div>
+        <br/>
 
     </form>
 
