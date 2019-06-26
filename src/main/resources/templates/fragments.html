@@ -53,7 +53,10 @@
             </label>
             <input class="form-control mr-sm-2" type="password"  name="password" placeholder="Password" />
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Login</button>
+
         </form>
+        <span class="errors text-danger" th:text="${loginError}"></span>
+
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -64,6 +67,8 @@
 
 
     </div>
+
+
 </nav>
 
 
@@ -114,23 +119,9 @@
 </footer>
 
 
-<div class="container">
-    <h2>Close Alerts via Data-Attributes</h2>
-    <p>The data-dismiss="alert" is used to close the alert box.</p>
-    <div class="alert alert-success alert-dismissible">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Success!</strong> This alert box could indicate a successful or positive action.
-    </div>
-</div>
+<div th:fragment="login-alert"  th:text="loginError" class="login-alert alert alert-dismissible alert-danger">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
 
-
-<div class="container">
-    <h2>Close Alerts via Data-Attributes</h2>
-    <p>The data-dismiss="alert" is used to close the alert box.</p>
-    <div class="alert alert-success alert-dismissible">
-        <a href="login" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Success!</strong> This alert box could indicate a successful or positive action.
-    </div>
 </div>
 
 

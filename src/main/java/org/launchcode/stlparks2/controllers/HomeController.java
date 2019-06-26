@@ -113,7 +113,7 @@ public class HomeController {
 
         User user = userDao.findByUserName(userName);
         if (user == null) {
-            model.addAttribute("loginError", "Username does not exist");
+            model.addAttribute("loginError", " Username does not exist");
             return "park/index";
         }
 
