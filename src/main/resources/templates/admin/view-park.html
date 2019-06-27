@@ -7,21 +7,23 @@
 
 <nav th:replace="fragments :: nav"></nav>
 
-<nav>
-    <a href="/admin">Admin Home/Add Amenity to Park</a> |
-    <a href="/admin/add-park">Add New Park</a> |
-    <a href="/admin/delete-park">Delete Park</a> |
-    <a href="/admin/add-amenity">Add New Amenity</a> |
-    <a href="/admin/delete-amenity">Delete Amenity</a> |
-    <a href="/admin/delete-user">Delete User</a> |
-    <a href="/admin/admin-logout">Admin Log Out</a>
-</nav>
+
 
 <div class="container">
 
 <br />
 
 <h1 th:text="${title}"></h1>
+
+    <nav>
+        <a href="/admin">Admin Home/Add Amenity to Park</a> |
+        <a href="/admin/add-park">Add New Park</a> |
+        <a href="/admin/delete-park">Delete Park</a> |
+        <a href="/admin/add-amenity">Add New Amenity</a> |
+        <a href="/admin/delete-amenity">Delete Amenity</a> |
+        <a href="/admin/delete-user">Delete User</a> |
+        <a href="/admin/admin-logout">Admin Log Out</a>
+    </nav>
 
 <br />
 
@@ -41,7 +43,7 @@
     </p>
 
     <p><strong>Amenities:</strong></p>
-    <ul class=amenity-list" th:each="amenity : ${park.amenities}">
+    <ul th:each="amenity : ${park.amenities}">
         <li th:text = "${amenity.name}"></li>
     </ul>
 

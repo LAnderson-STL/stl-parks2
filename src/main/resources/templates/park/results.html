@@ -40,8 +40,10 @@
         map.setCenter(results[0].geometry.location);
         var marker = new google.maps.Marker({
             map: map,
-            position: results[0].geometry.location
+            position: results[0].geometry.location,
+            title: [[${park.name}]]
         });
+
       }  else {
         alert('Geocode was not successful for the following reason: ' + status);
       }
@@ -73,59 +75,62 @@
 
     <div class="row">
 
-    <h4 th:text="${parks.size() + ' Result(s)'}"></h4>
+        <h4 th:text="${parks.size() + ' Result(s)&ndash; &nbsp;'}"></h4>
+        <h4 class="text-danger">&nbsp;Hover over marker to view park name</h4>
 
 
     </div>
 
-<div class="row">
+    <div class="row">
 
-    <div id="left" class="col-6 overflow-auto">
-    <div   th:each="park : ${parks}">
-        <table class="park-listing">
-            <tr>
-                <th>Name</th>
-                <td class="park-name" th:text="${park.name}"></td>
-            </tr>
-            <tr>
-                <th>Neighborhood</th>
-                <td th:text="${park.neighborhood}"></td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td th:text="${park.streetAddress} + ', St. Louis, MO  ' + ${park.zip}"></td>
-            </tr>
-            <tr>
-                <th>Website</th>
-                <td ><a th:href="${park.website}" th:target="_blank">Visit StLouis-MO.gov for more info</a></td>
-            </tr>
+        <div id="left" class="col-6 overflow-auto">
+            <div   th:each="park : ${parks}">
+                <table class="park-listing">
+                    <tr>
+                        <th>Name</th>
+                        <td class="park-name" th:text="${park.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>Neighborhood</th>
+                        <td th:text="${park.neighborhood}"></td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td th:text="${park.streetAddress} + ', St. Louis, MO  ' + ${park.zip}"></td>
+                    </tr>
+                    <tr>
+                        <th>Website</th>
+                        <td ><a th:href="${park.website}" th:target="_blank">Visit StLouis-MO.gov for more info</a></td>
+                    </tr>
 
-            <tr>
-                <th>Amenities</th>
-                <td>
-                    <span th:unless="${park.amenities} and ${park.amenities.size()}">No Amenities Found</span>
-                    <ul class="" th:each="amenity : ${park.amenities}">
-                        <li th:text = "${amenity.name}"></li>
-                    </ul>
+                    <tr>
+                        <th>Amenities</th>
+                        <td>
+                            <span th:unless="${park.amenities} and ${park.amenities.size()}">No Amenities Found</span>
+                            <ul class="" th:each="amenity : ${park.amenities}">
+                                <li th:text = "${amenity.name}"></li>
+                            </ul>
 
-                </td>
-            </tr>
-            <hr/>
+                        </td>
+                    </tr>
+                    <hr/>
+                    <br />
+
+                </table>
+            </div>
             <br />
 
-        </table>
+        </div>
+
+        <div class="map col-6"  id="map" style="width: 320px; height: 480px;"></div>
+
+
     </div>
-    <br />
-
-    </div>
-
-    <div class="map col-6"  id="map" style="width: 320px; height: 480px;"></div>
-
-
-</div>
 
 </div>
 <br />
 
 </body>
 </html>
+
+
