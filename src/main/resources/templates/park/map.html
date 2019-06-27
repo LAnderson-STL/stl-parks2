@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <script th:inline="javascript">
+
+
+      var geocoder;
+  var map;
+  function initialize() {
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(38.6270, -90.1994);
+    var mapOptions = {
+      zoom: 8,
+      center: latlng
+
+    }
+
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+
+  }
+
+  /*<![CDATA[*/
+  function codeAddress() {
+
+   /*[# th:each="park : ${parks}"]*/
+    var address = /*[[${park.streetAddress} + ${park.city}]]*/;
+
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == 'OK') {
+        map.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+        });
+      }  else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+    /*[/]*/
+  }
+
+  /*]]>*/
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtLbqtm2ZM-XbYy1YyDAKMJAokpjz5ypU&callback=initMap"
+            async defer></script>
+
+</head>
+<body onload="initialize()">
+
+
+
+<div  th:each="park : ${parks}">
+    <table class="park-listing">
+        <tr>
+            <th>Name</th>
+            <td class="park-name" th:text="${park.name}"></td>
+        </tr>
+        <tr>
+            <th>Neighborhood</th>
+            <td th:text="${park.neighborhood}"></td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td th:text="${park.streetAddress} + ', St. Louis, MO  ' + ${park.zip}"></td>
+        </tr>
+        <tr>
+            <th>Website</th>
+            <td ><a th:href="${park.website}" th:target="_blank">Visit StLouis-MO.gov for more info</a></td>
+        </tr>
+
+        <tr>
+            <th>Amenities</th>
+            <td>
+                <span th:unless="${park.amenities} and ${park.amenities.size()}">No Amenities Found</span>
+                <ul class="amenity-list" th:each="amenity : ${park.amenities}">
+                    <li th:text = "${amenity.name}"></li>
+                </ul>
+
+            </td>
+        </tr>
+        <hr/>
+        <br />
+
+    </table>
+</div>
+
+
+
+
+<div id="map" style="width: 320px; height: 480px;"></div>
+
+</body>
+</html>

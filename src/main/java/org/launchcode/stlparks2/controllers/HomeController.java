@@ -93,7 +93,7 @@ public class HomeController {
 
         model.addAttribute("parks", foundParks);
 
-        return "park/show-parks";
+        return "park/results";
 
     }
 
@@ -211,7 +211,11 @@ public class HomeController {
     }
 
 
-
+    @RequestMapping(value="results")
+    public String getResults(Model model){
+        model.addAttribute("parks", parkDao.findAll());
+        return "park/results";
+    }
 
 
 
