@@ -112,3 +112,16 @@ width:45%;
 width:45%;
 }
 
+ #left {
+
+    position: absolute;
+    top: 10%;
+    bottom: 0;
+    right: 0;
+    overflow-y: scroll;
+    height: 100%;
+  }
+
+
+
+
