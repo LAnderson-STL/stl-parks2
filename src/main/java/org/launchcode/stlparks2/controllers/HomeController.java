@@ -93,7 +93,7 @@ public class HomeController {
 
         model.addAttribute("parks", foundParks);
 
-        return "park/show-parks";
+        return "park/results";
 
     }
 
