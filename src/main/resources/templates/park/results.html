@@ -40,8 +40,10 @@
         map.setCenter(results[0].geometry.location);
         var marker = new google.maps.Marker({
             map: map,
-            position: results[0].geometry.location
+            position: results[0].geometry.location,
+            title: [[${park.name}]]
         });
+
       }  else {
         alert('Geocode was not successful for the following reason: ' + status);
       }
@@ -73,7 +75,8 @@
 
     <div class="row">
 
-        <h4 th:text="${parks.size() + ' Result(s)'}"></h4>
+        <h4 th:text="${parks.size() + ' Result(s)&ndash; &nbsp;'}"></h4>
+        <h4 class="text-danger">&nbsp;Hover over marker to view park name</h4>
 
 
     </div>
