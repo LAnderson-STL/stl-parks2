@@ -37,64 +37,9 @@ public class UserController {
     @Autowired
     private HttpServletResponse response;
 
-
     private Cookie cookie;
 
-    @RequestMapping(value = "register", method = RequestMethod.GET)
-    public String displayAddUser(Model model) {
 
-        model.addAttribute("title", "New User Registration");
-        model.addAttribute(new User());
-
-        return "user/register";
-    }
-
-    @RequestMapping(value = "register", method = RequestMethod.POST)
-    public String processAddUser(Model model, @RequestParam String userName, String password, String verifyPassword) {
-        //TODO: error handling
-
-        User newUser = new User(userName, password);
-
-        if (newUser.getUserName().length() < 5 || newUser.getUserName().length() > 15) {
-            model.addAttribute("title", "register");
-            model.addAttribute("userNameError", "Username must be 5 - 15 characters");
-            model.addAttribute("password", password);
-            return "user/register";
-        }
-
-
-        for (User user : userDao.findAll()) {
-            if (user.getUserName().equals(newUser.getUserName())) {
-                model.addAttribute("title", "register");
-                model.addAttribute("userNameError", "Username already exists");
-                model.addAttribute("userName", userName);
-                return "user/register";
-            }
-        }
-
-        if (password.length() < 5 || password.length() > 15) {
-            model.addAttribute("title", "register");
-            model.addAttribute("passwordError", "Password must be 5 - 15 characters");
-            model.addAttribute("userName", userName);
-            return "user/register";
-        }
-
-        if (!password.equals(verifyPassword)) {
-            model.addAttribute("title", "register");
-            model.addAttribute("verifyPasswordError", "Passwords do not match");
-            model.addAttribute("userName", userName);
-            return "user/register";
-        }
-
-        userDao.save(newUser);
-        cookie = new Cookie("name", newUser.getUserName());
-        cookie.setMaxAge(60 * 30);
-        cookie.setPath("/user");
-        response.addCookie(cookie);
-
-        return "redirect:" + newUser.getId();
-
-    }
 
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
@@ -132,7 +77,6 @@ public class UserController {
 
                 return "user/profile-page";
             }
-
         }
         return "redirect:/";
     }
@@ -141,17 +85,15 @@ public class UserController {
     @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
     public String processAddPark(AddParkToProfileForm form, @RequestParam int parkId, int userId, Model model) {
 
-
         model.addAttribute("title", "Remove Park");
         User user = userDao.findById(form.getUserId()).orElse(null);
         Park park = parkDao.findById(parkId).orElse(null);
         user.addPark(park);
         userDao.save(user);
 
-
         return "redirect:" + user.getId();
-
     }
+
 
     @RequestMapping(value = "delete-park/{userId}", method = RequestMethod.GET)
     public String displayDeletePark(Model model, @PathVariable int userId) {
@@ -179,7 +121,6 @@ public class UserController {
                 return "user/delete-park";
             }
         }
-
         return "redirect:/";
     }
 
@@ -195,6 +136,7 @@ public class UserController {
         userDao.save(user);
         return "user/delete-park";
     }
+
 
     @RequestMapping(value = "profile-link", method = RequestMethod.GET)
     public String followProfileLink() {
@@ -214,10 +156,7 @@ public class UserController {
             }
 
         }
-
-
         return "redirect:/";
-
     }
 
     @RequestMapping(value = "remove-link", method = RequestMethod.GET)
@@ -236,12 +175,10 @@ public class UserController {
 
                 return "redirect:/user/delete-park/" + currentUser.getId();
             }
-
         }
-
-
         return "redirect:/";
     }
+
 
     @RequestMapping(value = "logout")
     public String logOut() {
@@ -251,16 +188,10 @@ public class UserController {
             return "redirect:/";
         }
 
-
         cookie = new Cookie("name", "");
         cookie.setMaxAge(0);
         cookie.setPath("/user");
         response.addCookie(cookie);
         return "redirect:/";
-
-
-
-
-
     }
 }

@@ -12,7 +12,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script th:inline="javascript">
 
-
       var geocoder;
   var map;
   function initialize() {
@@ -25,7 +24,6 @@
     }
     codeAddress();
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
 
   }
 
@@ -68,16 +66,12 @@
     <br/>
     <h1 th:text="${title}"></h1>
 
-
-
     <br />
-
 
     <div class="row">
 
         <h4 th:text="${parks.size() + ' Result(s)&ndash; &nbsp;'}"></h4>
         <h4 class="text-danger">&nbsp;Hover over marker to view park name</h4>
-
 
     </div>
 
@@ -119,11 +113,9 @@
                 </table>
             </div>
             <br />
-
         </div>
 
         <div class="map col-6"  id="map" style="width: 320px; height: 480px;"></div>
-
 
     </div>
 

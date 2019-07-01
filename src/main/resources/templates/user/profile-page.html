@@ -21,10 +21,6 @@
 
     <hr />
 
-
-
-
-
 <div class="row">
     <div class="col-6">
         <br />
@@ -57,7 +53,6 @@
 
 <div class="col-6">
 
-
     <div th:each="park : ${parks}"  class="park-card card text-white bg-warning mb-3" style="max-width: 20rem;">
         <div class="card-header"><h4 class="card-title"><a th:href="'/view/' + ${park.id}" th:text="${park.name}"></a></h4></div>
         <div class="card-body">
@@ -67,14 +62,6 @@
             </p>
         </div>
     </div>
-
-
-
-
-
-
-
-
 
 </div>
 </div>

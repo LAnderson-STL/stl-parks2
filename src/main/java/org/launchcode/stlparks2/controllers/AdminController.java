@@ -97,7 +97,6 @@ public class AdminController {
     }
 
 
-
     @RequestMapping(value = "add-park", method = RequestMethod.POST)
     public String processAddPark(@ModelAttribute @Valid Park newPark, Errors errors, Model model) {
 
@@ -140,6 +139,7 @@ public class AdminController {
 
     }
 
+
     @RequestMapping(value = "add-amenity", method = RequestMethod.GET)
     public String displayAddAmenity(Model model) {
         model.addAttribute("title", "Add New Amenity");
@@ -161,12 +161,11 @@ public class AdminController {
         }
         return "redirect:/";
 
-
     }
+
 
     @RequestMapping(value = "add-amenity", method = RequestMethod.POST)
     public String processAddAmenity(@ModelAttribute @Valid Amenity newAmenity, Errors errors, Model model) {
-
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Amenity");
@@ -191,7 +190,6 @@ public class AdminController {
             }
         }
 
-
         AddParkAmenitiesForm form = new AddParkAmenitiesForm(park, availableAmenities);
         model.addAttribute("title", "Add Amenities for Park " + park.getName());
         model.addAttribute("form", form);
@@ -211,13 +209,11 @@ public class AdminController {
             }
         }
         return "redirect:/";
-
-
     }
+
 
     @RequestMapping(value = "add-park-amenities", method = RequestMethod.POST)
     public String processAddItem(@ModelAttribute AddParkAmenitiesForm form, Model model) {
-
 
         Park park = parkDao.findById(form.getParkId()).orElse(null);
         Amenity amenity = amenityDao.findById(form.getAmenityId()).orElse(null);
@@ -225,8 +221,8 @@ public class AdminController {
         parkDao.save(park);
 
         return "redirect:view/" + park.getId();
-
     }
+
 
     @RequestMapping(value = "delete-park", method = RequestMethod.GET)
     public String displayDeletePark(Model model) {
@@ -248,16 +244,14 @@ public class AdminController {
             }
         }
         return "redirect:/";
-
-
     }
+
 
     @RequestMapping(value = "delete-park", method = RequestMethod.POST)
     public String processDeletePark(@RequestParam int[] parkIds) {
 
         for (int parkId : parkIds) {
             Park park = parkDao.findById(parkId).orElse(null);
-
 
             parkDao.delete(park);
         }
@@ -288,10 +282,9 @@ public class AdminController {
         return "redirect:/";
     }
 
+
     @RequestMapping(value = "delete-amenity", method = RequestMethod.POST)
     public String processDeleteAmenity(@RequestParam int[] amenityIds) {
-
-
 
         for (int amenityId : amenityIds) {
             Amenity amenity = amenityDao.findById(amenityId).orElse(null);
@@ -300,9 +293,8 @@ public class AdminController {
 
 
         return "redirect:/admin/delete-amenity";
-
-
     }
+
 
     @RequestMapping(value = "delete-user", method = RequestMethod.GET)
     public String displayDeleteUser(Model model) {
@@ -324,15 +316,14 @@ public class AdminController {
             }
         }
         return "redirect:/";
-
     }
+
 
     @RequestMapping(value = "delete-user", method = RequestMethod.POST)
     public String processDeleteUser(@RequestParam int[] userIds) {
 
         for (int userId : userIds) {
             User user = userDao.findById(userId).orElse(null);
-
 
             userDao.delete(user);
         }
@@ -348,7 +339,6 @@ public class AdminController {
         if (cookies == null) {
             return "redirect:/";
         }
-
 
         cookie = new Cookie("name", "");
         cookie.setMaxAge(0);

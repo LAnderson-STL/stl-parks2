@@ -5,8 +5,6 @@
 
 <nav th:replace="fragments :: nav"></nav>
 
-
-
 <div class = "container content-wrap">
     <br/>
     <h1 th:text="${title}"></h1>
@@ -21,10 +19,7 @@
         <a href="/admin/admin-logout">Admin Log Out</a>
     </nav>
 
-
-
     <br />
-
 
     <h4>Parks List</h4>
 
@@ -35,8 +30,6 @@
             <a th:href="'admin/view/'+ ${park.id}" th:text="${park.name}"></a>
         </li>
     </ul>
-
-
 
 </div>
 <br />

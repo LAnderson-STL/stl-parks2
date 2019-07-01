@@ -37,13 +37,11 @@ public class HomeController {
     @Autowired
     AdminDao adminDao;
 
-
     @Autowired
     private HttpServletRequest request;
 
     @Autowired
     private HttpServletResponse response;
-
 
     private Cookie cookie;
 
@@ -55,6 +53,7 @@ public class HomeController {
         return "park/index";
     }
 
+
     @RequestMapping(value = "show-parks", method = RequestMethod.GET)
     public String showParks(Model model) {
 
@@ -62,6 +61,7 @@ public class HomeController {
 
         return "park/show-parks";
     }
+
 
     @RequestMapping(value = "search", method = RequestMethod.GET)
     public String showSearch(Model model) {
@@ -73,9 +73,9 @@ public class HomeController {
         return "park/search";
     }
 
+
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public String processSearch(Model model, @RequestParam ArrayList<Integer> amenityIds) {
-
 
         ArrayList<Park> foundParks = new ArrayList<>();
 
@@ -94,15 +94,14 @@ public class HomeController {
         model.addAttribute("parks", foundParks);
 
         return "park/results";
-
     }
+
 
     @RequestMapping(value = "view/{parkId}", method = RequestMethod.GET)
     public String viewPark(Model model, @PathVariable int parkId) {
         Park park = parkDao.findById(parkId).orElse(null);
         model.addAttribute("park", park);
         model.addAttribute("title", "Park Info");
-
 
         return "park/view-park";
     }
@@ -127,8 +126,8 @@ public class HomeController {
 
         model.addAttribute("loginError", "Username and password do not match");
         return "redirect:";
-
     }
+
 
     @RequestMapping(value = "", params = "admin-login", method = RequestMethod.POST)
     public String adminLogin(Model model, @RequestParam String adminUserName, String adminPassword){
@@ -148,11 +147,11 @@ public class HomeController {
 
             return "redirect:/admin";
         }
-        //TODO: fix error messages
+
         model.addAttribute("adminPasswordError", "Username and password do not match");
         return "park/index";
-
     }
+
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String displayAddUser(Model model) {
@@ -163,9 +162,9 @@ public class HomeController {
         return "park/register";
     }
 
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String processAddUser(Model model, @RequestParam String userName, String password, String verifyPassword) {
-        //TODO: error handling
 
         User newUser = new User(userName, password);
 
@@ -175,7 +174,6 @@ public class HomeController {
             model.addAttribute("password", password);
             return "park/register";
         }
-
 
         for (User user : userDao.findAll()){
             if (user.getUserName().equals(newUser.getUserName())){
@@ -207,7 +205,6 @@ public class HomeController {
         userDao.save(newUser);
 
         return "redirect:/user/" + newUser.getId();
-
     }
 
 
@@ -216,14 +213,6 @@ public class HomeController {
         model.addAttribute("parks", parkDao.findAll());
         return "park/results";
     }
-
-
-
-
-
-
-
-
 }
 
 
